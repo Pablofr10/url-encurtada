@@ -55,6 +55,20 @@ app.post("/url", async (req, res) => {
   }
 });
 
+// Deletar a URL
+app.delete("/url/:id", async (req, res) => {
+    try {
+      const { id } = req.params;
+  
+      const novaUrl = await pool.query(
+        "DELETE FROM url_encurtada WHERE id = $1", [id]);
+  
+      res.json("Url deletada com sucesso");
+    } catch (error) {
+      console.error(error);
+    }
+  });
+
 app.listen(3000, () => {
   console.log("servidor sendo ouvido na porta 3000");
 });
