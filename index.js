@@ -10,7 +10,7 @@ app.use(express.json());
 app.get("/url", async (req, res) => {
  
     try {
-      const urls = await pool.query("SELECT * FROM url_encurtada");
+      const urls = await pool.query("SELECT * FROM tb_url");
       res.json(urls.rows);
     } catch (error) {}
   });
@@ -20,7 +20,7 @@ app.get("/url/:id", async (req, res) => {
   const { id } = req.params;
 
   try {
-    const url = await pool.query("SELECT * FROM url_encurtada WHERE id = $1", [
+    const url = await pool.query("SELECT * FROM tb_url WHERE id = $1", [
       id,
     ]);
     res.json(url.rows[0]);
@@ -32,7 +32,7 @@ app.get("/url/pordata/:data", async (req, res) => {
     const { data } = req.params;
   
     try {
-      const url = await pool.query("SELECT * FROM url_encurtada WHERE encurtada_em = $1", [data]);
+      const url = await pool.query("SELECT * FROM tb_url WHERE encurtada_em = $1", [data]);
       res.json(url.rows);
     } catch (error) {}
   });
@@ -45,7 +45,7 @@ app.post("/url", async (req, res) => {
     const url_curta = "unyUrl.com/" + shortid.generate();
 
     const novaUrl = await pool.query(
-      "INSERT INTO url_encurtada (url_longa, url_encurtada, encurtada_em) VALUES ($1, $2, $3) RETURNING *",
+      "INSERT INTO tb_url (url_longa, url_curta, encurtada_em) VALUES ($1, $2, $3) RETURNING *",
       [url_longa, url_curta, encurtada_em]
     );
 
@@ -61,7 +61,7 @@ app.delete("/url/:id", async (req, res) => {
       const { id } = req.params;
   
       const novaUrl = await pool.query(
-        "DELETE FROM url_encurtada WHERE id = $1", [id]);
+        "DELETE FROM tb_url WHERE id = $1", [id]);
   
       res.json("Url deletada com sucesso");
     } catch (error) {
