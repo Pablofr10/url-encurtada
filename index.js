@@ -26,7 +26,18 @@ app.get("/url/:id", async (req, res) => {
     res.json(url.rows[0]);
   } catch (error) {}
 });
+
 // Busca URLs por Data
+app.get("/url/pordata/:data", async (req, res) => {
+    const { data } = req.params;
+  
+    try {
+      const url = await pool.query("SELECT * FROM url_encurtada WHERE encurtada_em = $1", [data]);
+      res.json(url.rows);
+    } catch (error) {}
+  });
+
+
 // Encurta a URL e adiciona
 app.post("/url", async (req, res) => {
   try {
