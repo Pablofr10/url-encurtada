@@ -1,0 +1,6 @@
+{
+  "dependencies": {
+    "nodemon": "npm:null@*",
+    "pg": "^8.6.0"
+  }
+}
