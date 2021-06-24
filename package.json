@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "express": "^4.17.1",
     "nodemon": "npm:null@*",
     "pg": "^8.6.0"
   }
