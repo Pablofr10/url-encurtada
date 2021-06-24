@@ -1,6 +1,8 @@
 {
   "dependencies": {
+    "express": "^4.17.1",
     "nodemon": "npm:null@*",
-    "pg": "^8.6.0"
+    "pg": "^8.6.0",
+    "shortid": "^2.2.16"
   }
 }
