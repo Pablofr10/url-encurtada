@@ -7,6 +7,14 @@ app.use(express.json());
 
 // ROTAS
 // Todas as URL
+app.get("/url", async (req, res) => {
+ 
+    try {
+      const urls = await pool.query("SELECT * FROM url_encurtada");
+      res.json(urls.rows);
+    } catch (error) {}
+  });
+
 // Busca URL por Id
 app.get("/url/:id", async (req, res) => {
   const { id } = req.params;
