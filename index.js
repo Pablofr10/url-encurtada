@@ -1,7 +1,9 @@
 const express = require("express");
-const app = express();
 const pool = require("./db");
 const shortid = require("shortid");
+
+const app = express();
+const port = process.env.PORT || 500
 
 const swaggerJsDoc = require('swagger-jsdoc')
 const swaggerUi = require('swagger-ui-express')
