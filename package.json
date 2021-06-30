@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "start": "nodemon index.js",
+    "start": "node index.js",
     "test": "echo \"Error: sem teste"
   },
   "dependencies": {
