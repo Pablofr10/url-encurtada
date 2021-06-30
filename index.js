@@ -3,10 +3,38 @@ const app = express();
 const pool = require("./db");
 const shortid = require("shortid");
 
+const swaggerJsDoc = require('swagger-jsdoc')
+const swaggerUi = require('swagger-ui-express')
+
+const swaggerOptions = {
+  swaggerDefinition: {
+    info: {
+      title: 'Encurtador de URL',
+      description: 'Encurtador de URL feito na disciplina de desenvolvimento backend UNYLEYA',
+      contact: {
+        name: 'Pablo Araújo'
+      }, 
+      servers: ['http://localhost:3000']
+    },
+  },
+  apis: ['index.js']
+}
+
+const swaggerDocs = swaggerJsDoc(swaggerOptions);
+
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs))
+
 app.use(express.json());
 
-// ROTAS
-// Todas as URL
+/**
+ * @swagger
+ * /url:
+ *  get:
+ *    summary: Busca todas as Urls
+ *    responses:
+ *      200:
+ *        description: Suceso ao buscar Urls
+ */
 app.get("/url", async (req, res) => {
  
     try {
@@ -16,6 +44,19 @@ app.get("/url", async (req, res) => {
   });
 
 // Busca URL por Id
+/**
+ * @swagger
+ * /url/{id}:
+ *  get:
+ *    summary: Busca todas as Urls d
+ *    parameters:
+ *      - in: path
+ *        name: id 
+ *        schema:
+ *          type: int
+ *        required: true
+ *        description: Url id
+ */
 app.get("/url/:id", async (req, res) => {
   const { id } = req.params;
 
@@ -28,6 +69,19 @@ app.get("/url/:id", async (req, res) => {
 });
 
 // Busca URLs por Data
+/**
+ * @swagger
+ * /url/pordata/{data}:
+ *  get:
+ *    description: Busca todas as Urls por data
+ *    parameters:
+ *      - in: path
+ *        name: data 
+ *        schema:
+ *          type: date
+ *        required: true
+ *        description: Url data
+ */
 app.get("/url/pordata/:data", async (req, res) => {
     const { data } = req.params;
   
@@ -37,8 +91,26 @@ app.get("/url/pordata/:data", async (req, res) => {
     } catch (error) {}
   });
 
-
-// Encurta a URL e adiciona
+/**
+ * @swagger
+ * /url:
+ *  post:
+ *    description: Cria uma url curta
+ *    parameters:
+ *    - name: url_longa
+ *      description: Url longa
+ *      in: formData
+ *      required: true
+ *      type: string
+ *    - name: encurtada_em
+ *      description: Data de encurtação
+ *      in: formData
+ *      required: true
+ *      type: string
+ *      responses:
+ *        201:
+ *          description: Sucesso ao gravar a url
+ */
 app.post("/url", async (req, res) => {
   try {
     const { url_longa, encurtada_em } = req.body;
@@ -55,7 +127,19 @@ app.post("/url", async (req, res) => {
   }
 });
 
-// Deletar a URL
+/**
+ * @swagger
+ * /url/{id}:
+ *  delete:
+ *    summary: deleta url pelo id
+ *    parameters:
+ *      - in: path
+ *        name: id 
+ *        schema:
+ *          type: int
+ *        required: true
+ *        description: Url id
+ */
 app.delete("/url/:id", async (req, res) => {
     try {
       const { id } = req.params;
